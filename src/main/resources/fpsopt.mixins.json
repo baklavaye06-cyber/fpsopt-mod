@@ -1,0 +1,21 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "dev.fpsopt.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "plugin": "dev.fpsopt.mixin.FpsOptMixinPlugin",
+  "mixins": [
+    "common.MobEntityMixin",
+    "common.SchemasMixin",
+    "common.SharedConstantsMixin"
+  ],
+  "client": [
+    "client.ParticleManagerMixin",
+    "client.EntityRenderDispatcherMixin",
+    "client.BlockEntityRenderDispatcherMixin",
+    "client.SpriteAtlasTextureMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

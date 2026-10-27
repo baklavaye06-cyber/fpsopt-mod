@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "fpsopt",
+  "version": "${version}",
+  "name": "FPS Optimizer",
+  "description": "Parçacık, varlık ve blok varlığı mesafe kırpması; uzak moblar için yapay zeka kısıtlaması; tembel DataFixerUpper başlatma. Tüm özellikler config/fpsopt.json ile açılıp kapatılabilir.",
+  "authors": ["FPS Optimizer"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.fpsopt.FpsOptMod"],
+    "client": ["dev.fpsopt.client.FpsOptClient"]
+  },
+  "mixins": ["fpsopt.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.11.0",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+    "java": ">=8"
+  }
+}

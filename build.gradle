@@ -1,10 +1,8 @@
 plugins {
-    // Java 8 ile çalışan Loom sürümü (1.16.x dönemi). Gradle 6.9.4 ile birlikte kullanılır.
-    id 'fabric-loom' version '0.8-SNAPSHOT'
+    id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'maven-publish'
 }
 
-// Minecraft 1.16.5 Java 8 ile çalışır; derleme de Java 8 ile yapılabilir.
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -13,7 +11,6 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-    // Fabric / Mojang depoları Loom tarafından otomatik eklenir.
 }
 
 dependencies {
@@ -33,6 +30,7 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
+    it.options.release = 8
 }
 
 java {

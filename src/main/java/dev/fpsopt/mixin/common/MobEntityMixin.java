@@ -19,21 +19,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * UZAK MOB YAPAY ZEKASI KISITLAMASI (Entity Tick / AI Optimization)
  *
- * <p>{@code MobEntity#tickNewAi} her mobun her tikte hedef seçimi, yol bulma, hareket/bakış
- * kontrolcüleri ve sensör hesaplarını yürüttüğü yerdir; sunucu tik süresinin (MSPT) en büyük
- * kalemlerinden biridir. Hiçbir oyuncunun {@code mobAiThrottleDistance} bloğu içinde olmadığı
- * mobların AI'ı yalnızca her {@code mobAiThrottleInterval}. tikte bir çalıştırılır.</p>
- *
- * <p>Güvenlik kuralları (kısıtlama uygulanmaz):</p>
- * <ul>
- *   <li>İstemci tarafı dünya (yalnızca mantıksal sunucu etkilenir),</li>
- *   <li>Hedefi olan, tasmalı, binek/yolcu durumundaki mobs,</li>
- *   <li>Ender Dragon ve Wither,</li>
- *   <li>{@code mobAiSafeMode} açıkken: köylüler, evcil hayvanlar ve demir golemler.</li>
- * </ul>
- *
- * <p>Bilinen yan etki: uzak mobların despawn sayacı ({@code despawnCounter}) da AI ile birlikte
- * arttığı için daha yavaş ilerler.</p>
+ * Oyuncuya mobAiThrottleDistance blogundan uzak mobların AI'ı
+ * yalnızca her mobAiThrottleInterval. tikte bir çalıştırılır.
+ * Hedefi olanlar, tasmalılar, binek/yolcular, Ender Dragon, Wither ve
+ * (mobAiSafeMode açıkken) köylüler, evcil hayvanlar, demir golemler muaftır.
  */
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity {
@@ -55,7 +44,7 @@ public abstract class MobEntityMixin extends LivingEntity {
         FpsOptConfig cfg = FpsOptConfig.get();
 
         // Pahalı oyuncu aramasını mob başına saniyede bir yap (id ile kademelendirilmiş).
-        if (((this.age + this.getId()) % 20) == 0) {
+        if (((this.age + this.getEntityId()) % 20) == 0) {
             this.fpsopt$farFromPlayers = this.world.getClosestPlayer(this, cfg.mobAiThrottleDistance) == null;
         }
         if (!this.fpsopt$farFromPlayers) {
@@ -76,7 +65,7 @@ public abstract class MobEntityMixin extends LivingEntity {
             return;
         }
 
-        if (((this.age + this.getId()) % cfg.mobAiThrottleInterval) != 0) {
+        if (((this.age + this.getEntityId()) % cfg.mobAiThrottleInterval) != 0) {
             ci.cancel();
         }
     }
